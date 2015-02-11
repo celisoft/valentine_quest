@@ -1,7 +1,7 @@
 #Define vars
 CC = clang++
 FLAGS = -Wall -std=c++11
-LIBS = -lSDL2 -lSDL2_image
+LIBS = -lSDL2 -lSDL2_image -lSDL2_mixer
 EXEC = valentine_quest
 
 #Define the ALL scope (default)
