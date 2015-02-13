@@ -1,5 +1,4 @@
 #include "monster.h"
-#include <iostream>
 
 //Render the texture through given renderer
 void Monster::render(SDL_Renderer* pRenderer)
@@ -15,7 +14,6 @@ void Monster::set_pos(Position pPosition)
 
 	monster_rect.x = pPosition.get_x() * STEP_X;
 	monster_rect.y = pPosition.get_y() * STEP_Y;
-
 }
 
 //Move the monster and refresh its surface
@@ -26,7 +24,6 @@ void Monster::move()
 
 	if(direction == RIGHT)
 	{
-		std::cout << "RIGHT" << pos.get_x() << std::endl;
 		if(pos.get_x() < x_max)
 		{
 			x_val = pos.get_x() + 1;
@@ -48,7 +45,6 @@ void Monster::move()
 	}
 	else
 	{
-		std::cout << "LEFT" << pos.get_x() << std::endl;
 		if(pos.get_x() > x_min)
 		{
 			x_val = pos.get_x() - 1;
