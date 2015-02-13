@@ -8,7 +8,7 @@ class Position
 
 	public:
 		static const int MIN_X = 0;
-		static const int MAX_X = 16;
+		static const int MAX_X = 15;
 		static const signed int MIN_Y = 0;
 		static const int MAX_Y = 12;
 
