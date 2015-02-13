@@ -55,7 +55,6 @@ bool GameWindow::run()
 		//Init phase fails
 		return false;
 	}
-
 		
 	SDL_Event lEvent;
 	int current_time{0};
@@ -82,13 +81,14 @@ bool GameWindow::run()
 			//Simulate gravity
 			if(current_time > next_fall_down)
 			{
-				//player_fall_down();
+				player_fall_down();
 				next_fall_down = current_time+80;
 			}
-	
+
+			//End the game if the player is killed	
 			if(current_lvl->check_monster_collision(player->get_rect()) == true)
 			{
-				//TODO game over but not quit !!
+				player->kill();
 				is_running = false;
 			}
 
@@ -113,6 +113,28 @@ bool GameWindow::run()
 			SDL_Delay(16);
 		}
 	}
+
+	//Display the user an happy ending or not
+	SDL_Surface* ending_image = IMG_Load("assets/happyend.png");
+	if(player->is_alive() == false)
+	{
+		ending_image = IMG_Load("assets/gameover.png");
+	}
+	SDL_Texture* ending_texture = SDL_CreateTextureFromSurface(renderer, ending_image);	
+	SDL_FreeSurface(ending_image);
+	
+	SDL_Rect ending_rect;
+	ending_rect.w = 1024;
+	ending_rect.h = 768;
+	ending_rect.x = 0;
+	ending_rect.y = 0;
+
+	SDL_RenderClear(renderer);
+	SDL_RenderCopy(renderer, ending_texture, &ending_rect, &ending_rect); 
+	SDL_RenderPresent(renderer);
+
+	//Slow down cycles
+	SDL_Delay(1500);
 
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(display);
