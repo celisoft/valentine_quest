@@ -16,6 +16,7 @@ class Player
 	SDL_Texture* player_texture;
 	SDL_Rect sprite_rect;
 	SDL_Rect player_rect;
+	bool is_dead = false;
 
 	public:
 		//Constant initialization
@@ -29,23 +30,20 @@ class Player
 		//Constructors
 		Player(string pSpritePath="", int pX=0, int pY=0)
 		{
-			if(pSpritePath.compare("") != 0)
-			{
-				score = 0;
-				pos = Position(pX, pY);
-	
-				player_image = IMG_Load(pSpritePath.c_str());
+			score = 0;
+			pos = Position(pX, pY);
 
-				sprite_rect.w = 32;
-				sprite_rect.h = 64;
-				sprite_rect.x = 32 * RIGHT_POS_0;
-				sprite_rect.y = 0;
+			player_image = IMG_Load(pSpritePath.c_str());
 
-				player_rect.w = 32;
-				player_rect.h = 64;
-				player_rect.x = pX * STEP_X;
-				player_rect.y = pY * STEP_Y;
-			}
+			sprite_rect.w = 32;
+			sprite_rect.h = 64;
+			sprite_rect.x = 32 * RIGHT_POS_0;
+			sprite_rect.y = 0;
+
+			player_rect.w = 32;
+			player_rect.h = 64;
+			player_rect.x = pX * STEP_X;
+			player_rect.y = pY * STEP_Y;
 		}
 
 		//Getter for player_rect (will be used for collsion)
@@ -53,6 +51,12 @@ class Player
 
 		//Set the player position to the given position
 		void set_pos(Position pPosition);
+
+		//Kill the player
+		void kill(){is_dead = true;}
+
+		//Check if player is alive
+		bool is_alive(){return !is_dead;}
 
 		//Increase score
 		void increase_score(){ score++; }
