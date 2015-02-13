@@ -8,15 +8,24 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "position.h"
 #include "monster.h"
+#include "player.h"
+#include "heart.h"
 
 using namespace std;
 
 class Level
 {
 	private:
+		string lvl_bg_path;
+		string lvl_ground_path;
+		string lvl_music_path;
+		string lvl_map_path;
+		string lvl_player_path;
+
 		SDL_Surface* bg_image;
 		SDL_Texture* bg_texture;
 
@@ -27,8 +36,11 @@ class Level
 
 		vector<SDL_Rect> lvl_ground;
 		vector<Monster> lvl_monsters; 
+		
+		Heart current_heart = Heart(0,0);
+		int heart_indice;
 
-		Position start_pos;
+		Player lvl_player;
 
 		Mix_Music* lvl_music;
 
@@ -38,82 +50,43 @@ class Level
 		//Generate new monster
 		void create_monster(int pXmin, int pXmax, int pY);
 
+		//Create heart
+		void create_heart();
+
+		//Load the level map
+		bool load_map(string pMapFilepath);
+
+		//Indicator if level is loaded
+		bool is_load = false;
+
+		//Indicator if level is finished
+		bool is_finish = false;
+
 	public:
 		//Constructor
-		Level(string pLvlMapPath, string pLvlGroundPath)
+		Level(string pBgPath, string pGroundPath, string pBgMusicPath, string pMapPath, string pPlayerPath)
 		{
-			lvl_image = IMG_Load(pLvlGroundPath.c_str());
-			bg_image = IMG_Load("assets/backgrounds/bg_nuagafille.png");
-
-			//Initialize the bg sprite
-			bg_rect.w = 1024;
-			bg_rect.h = 768;
-			bg_rect.x = 0;
-			bg_rect.y = 0;
-
-			//Initialize the ground sprite
-			sprite_rect.w = 64;
-			sprite_rect.h = 64;
-			sprite_rect.x = 0;
-			sprite_rect.y = 0;
-
-			//TODO Externalize
-			//Initialize the different rect to be identified as ground rect
-			ifstream lvl_file(pLvlMapPath);
-			if(lvl_file.is_open())
-			{
-				string line;
-				int monster_x1{0};
-				int monster_x2{0};
-
-				float line_idx{0};
-				float col_idx{0};
-
-				while(getline(lvl_file, line))
-				{
-					for(auto lChar : line)
-					{
-						switch(lChar)
-						{
-							case '*':
-								add_rect(col_idx, line_idx);
-								break;
-							case 'P':
-								start_pos = Position(col_idx, line_idx);
-								break;
-							case '[':
-								monster_x1 = col_idx;
-								break;
-							case ']':
-								monster_x2 = col_idx;
-								break;
-						}
-						col_idx++;
-					}
-					
-					if(monster_x1 != monster_x2)
-					{
-						create_monster(monster_x1, monster_x2, line_idx);
-					}
-
-					monster_x1 = 0;
-					monster_x2 = 0;
-					col_idx = 0;
-					line_idx++;
-				}
-			}
-			//TODO rise an exception
-			//else
-			//{
-			//}
-			lvl_file.close();
-
-			//Initialize the sound
-			lvl_music = Mix_LoadMUS("assets/sfx/musique_aqua.ogg");
+			lvl_bg_path = pBgPath;
+			lvl_ground_path = pGroundPath;
+			lvl_music_path = pBgMusicPath;
+			lvl_map_path = pMapPath;
+			lvl_player_path = pPlayerPath;
 		}
+
+		//Player getter
+		Player* get_player(){return &lvl_player;}
+
+		//Load the level
+		bool load(SDL_Renderer* pRenderer);
 		
-		//Getter for player start position
-		Position get_player_start_position(){return start_pos;}
+		//Setter for is_finished indicator
+		void set_finished(){is_finish = true;}
+
+		//Getter for is_finished indicator
+		bool is_finished(){return is_finish;}
+
+		//Getter for is_loaded indicator
+		bool is_loaded(){return is_load;}
 
 		//Initialize the texture to be rendered
 		bool init_textures(SDL_Renderer* pRenderer);

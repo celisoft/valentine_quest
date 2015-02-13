@@ -2,8 +2,11 @@
 #define PLAYER_H
 
 #include "position.h"
+#include <string>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+
+using namespace std;
 
 class Player
 {
@@ -16,28 +19,33 @@ class Player
 
 	public:
 		//Constant initialization
-		static const int LEFT_POS = 1;
-		static const int RIGHT_POS = 0;
+		static const int LEFT_POS_0 = 3;
+		static const int LEFT_POS_1 = 2;
+		static const int RIGHT_POS_0 = 0;
+		static const int RIGHT_POS_1 = 1;
 		static const int STEP_X = 64;
 		static const int STEP_Y = 64;
 
-		//Constructor
-		Player()
+		//Constructors
+		Player(string pSpritePath="", int pX=0, int pY=0)
 		{
-			score = 0;
-			pos = Position(0, 0);
+			if(pSpritePath.compare("") != 0)
+			{
+				score = 0;
+				pos = Position(pX, pY);
+	
+				player_image = IMG_Load(pSpritePath.c_str());
 
-			player_image = IMG_Load("assets/players/aqualienne.png");
+				sprite_rect.w = 32;
+				sprite_rect.h = 64;
+				sprite_rect.x = 32 * RIGHT_POS_0;
+				sprite_rect.y = 0;
 
-			sprite_rect.w = 32;
-			sprite_rect.h = 64;
-			sprite_rect.x = 32 * RIGHT_POS;
-			sprite_rect.y = 0;
-
-			player_rect.w = 32;
-			player_rect.h = 64;
-			player_rect.x = pos.get_x();
-			player_rect.y = pos.get_y();
+				player_rect.w = 32;
+				player_rect.h = 64;
+				player_rect.x = pX * STEP_X;
+				player_rect.y = pY * STEP_Y;
+			}
 		}
 
 		//Getter for player_rect (will be used for collsion)

@@ -23,11 +23,25 @@ void Player::move_x(int step=1)
 	//Update player sprite
 	if(step < 0)
 	{
-		sprite_rect.x = 32*LEFT_POS;
+		if(sprite_rect.x == 32*LEFT_POS_0)
+		{
+			sprite_rect.x = 32*LEFT_POS_1;
+		}
+		else
+		{
+			sprite_rect.x = 32*LEFT_POS_0;
+		}
 	}
 	else
 	{
-		sprite_rect.x = 32*RIGHT_POS;
+		if(sprite_rect.x == 32*RIGHT_POS_0)
+		{
+			sprite_rect.x = 32*RIGHT_POS_1;
+		}
+		else
+		{
+			sprite_rect.x = 32*RIGHT_POS_0;
+		}
 	}
 
 	//Update player_rect with updated X
