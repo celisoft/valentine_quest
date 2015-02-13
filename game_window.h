@@ -3,7 +3,9 @@
 
 #include <SDL2/SDL.h>
 #include "level.h"
+#include "level_manager.h"
 #include "player.h"
+#include <iostream>
 
 class GameWindow
 {
@@ -12,8 +14,9 @@ class GameWindow
 		SDL_Window* display;
 		SDL_Renderer* renderer;
 
-		Player player;
-		Level lvl = Level("test.lvlmap", "assets/grounds/ground_nuaga.png");
+		Level* current_lvl;
+		Player* player;
+		LevelManager lvl_manager;
 
 	public:
 		//Constructor
@@ -22,7 +25,10 @@ class GameWindow
 			display = nullptr;
 			renderer = nullptr;
 
-			player.set_pos(lvl.get_player_start_position());
+			if(!lvl_manager.load_index())
+			{
+				std::cout << "Bad file !!" << std::endl;
+			}
 		}
 
 		//Initialize the game display
