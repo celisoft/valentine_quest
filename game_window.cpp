@@ -85,6 +85,19 @@ bool GameWindow::run()
 				next_fall_down = current_time+80;
 			}
 
+			if(current_lvl->check_heart_collision())
+			{
+				if(current_lvl->get_remaining_hearts() == 0)
+				{
+					is_running = false;
+					//current_lvl->show_door();
+				}
+				else
+				{
+					current_lvl->set_random_heart_visible();
+				}
+			}
+
 			//End the game if the player is killed	
 			if(current_lvl->check_monster_collision(player->get_rect()) == true)
 			{

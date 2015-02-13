@@ -1,6 +1,10 @@
 #include "level.h"
 #include <iostream>
 
+#include <chrono>
+#include <random>
+
+
 //Load the level
 bool Level::load(SDL_Renderer* pRenderer)
 {
@@ -33,11 +37,6 @@ bool Level::load(SDL_Renderer* pRenderer)
 	{
 		return false;
 	}
-
-	//TODO to be deleted (set into the map)
-	//Heart generation
-	//heart_indice = 0;
-	//current_heart = Heart(7,1);
 
 	//Initialize the sound
 	lvl_music = Mix_LoadMUS(lvl_music_path.c_str());
@@ -88,6 +87,9 @@ bool Level::load_map(string pMapFilepath)
 					case 'P':
 						lvl_player = Player(lvl_player_path, col_idx, line_idx);
 						break;
+					case 'L':
+						create_heart(col_idx, line_idx);			
+						break;
 					case '[':
 						monster_x1 = col_idx;
 						break;
@@ -123,12 +125,14 @@ void Level::create_monster(int pXmin, int pXmax, int pY)
 	lvl_monsters.push_back(Monster(pXmin, pXmax, pY));
 }
 
-void Level::create_heart()
+void Level::create_heart(int pX, int pY)
 {
-	if(heart_indice == 0)
+	Heart tmp_heart = Heart(pX, pY);
+	if(lvl_hearts.size() == 0)
 	{
-		heart_indice++;
+		tmp_heart.set_visibility(true);
 	}
+	lvl_hearts.push_back(tmp_heart);
 }
 
 //Move monsters :D
@@ -196,18 +200,23 @@ bool Level::check_monster_collision(SDL_Rect* pPlayer)
 }
 
 //Check for collisions between player_rect and the heart
-//bool Level::check_heart_collision(SDL_Rect* pPlayer)
-//{
-//	if(lvl_hearts.size() > 0)
-//	{
-//		SDL_Rect lRect = lvl_hearts[0].get_rect();
-//		if(SDL_HasIntersection(pPlayer, lRect)
-//		{
-//			return true;
-//		}
-//	}
-//	return false;
-//}
+bool Level::check_heart_collision()
+{
+	for(auto& lHeart : lvl_hearts)
+	{
+		if(lHeart.get_visibility())
+		{
+			SDL_Rect* lRect = lHeart.get_rect();
+			if(SDL_HasIntersection(lvl_player.get_rect(), lRect))
+			{
+				lHeart.set_visibility(false);
+				lHeart.eat();
+				return true;
+			}
+		}
+	}
+	return false;
+}
 
 //Render the texture through given renderer
 void Level::render(SDL_Renderer* pRenderer)
@@ -224,6 +233,50 @@ void Level::render(SDL_Renderer* pRenderer)
 		lMonster.render(pRenderer); 
 	}
 
-	current_heart.render(pRenderer);
+	for(auto lHeart : lvl_hearts)
+	{
+		lHeart.render(pRenderer);
+	}
 }
+
+int Level::get_remaining_hearts()
+{
+	int remain{0};
+	for(auto lHeart : lvl_hearts)
+	{
+		if(!lHeart.is_eat())
+		{
+			remain++;
+		}
+	}
+	return remain;
+}
+
+void Level::show_door()
+{
+	//TODO implement door object
+	std::cout<< "Door appeared" << std::endl;
+}
+
+int Level::get_random(int pMin, int pMax)
+{
+	unsigned lSeed = chrono::system_clock::now().time_since_epoch().count();
+	default_random_engine gen(lSeed);
+	uniform_int_distribution<int> dist(pMin, pMax);
+
+	return dist(gen);
+}
+
+void Level::set_random_heart_visible()
+{
+	int max = lvl_hearts.size()-1;
+
+	int rand_val = get_random(0, max);
+	while(lvl_hearts[rand_val].get_visibility())
+	{
+		rand_val = get_random(0, max);
+	}
+	lvl_hearts[rand_val].set_visibility(true);
+}
+
 

@@ -36,9 +36,7 @@ class Level
 
 		vector<SDL_Rect> lvl_ground;
 		vector<Monster> lvl_monsters; 
-		
-		Heart current_heart = Heart(0,0);
-		int heart_indice;
+		vector<Heart> lvl_hearts;
 
 		Player lvl_player;
 
@@ -51,7 +49,7 @@ class Level
 		void create_monster(int pXmin, int pXmax, int pY);
 
 		//Create heart
-		void create_heart();
+		void create_heart(int pX, int pY);
 
 		//Load the level map
 		bool load_map(string pMapFilepath);
@@ -102,6 +100,17 @@ class Level
 
 		//Check for collision between player_rect and monsters
 		bool check_monster_collision(SDL_Rect* pPlayer);
+
+		//Check for collisiob between player_rect and heart
+		bool check_heart_collision();
+
+		int get_remaining_hearts();
+
+		void show_door();
+
+		int get_random(int pMin, int pMax);
+
+		void set_random_heart_visible();
 
 		//Render the texture through given renderer
 		void render(SDL_Renderer* pRenderer);

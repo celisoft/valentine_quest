@@ -3,8 +3,11 @@
 //Render the texture through given renderer
 void Heart::render(SDL_Renderer* pRenderer)
 {
-	heart_texture = SDL_CreateTextureFromSurface(pRenderer, heart_image);
-	SDL_RenderCopy(pRenderer, heart_texture, &sprite_rect, &heart_rect);
+	if(is_visible)
+	{
+		heart_texture = SDL_CreateTextureFromSurface(pRenderer, heart_image);
+		SDL_RenderCopy(pRenderer, heart_texture, &sprite_rect, &heart_rect);
+	}
 }
 
 //Set player position to the given one

@@ -13,6 +13,8 @@ class Heart
 		SDL_Texture* heart_texture;
 		SDL_Rect sprite_rect;
 		SDL_Rect heart_rect;
+		bool is_visible = false;
+		bool is_eaten = false;
 
 	public:
 		//Constructor
@@ -33,12 +35,17 @@ class Heart
 			heart_rect.y = pos.get_y() * 64;
 		}
 
-		//Destructor
-		//~Heart()
-		//{
-		//	SDL_FreeSurface(heart_image);
-		//	SDL_DestroyTexture(heart_texture);
-		//}
+		//Set visible
+		void set_visibility(bool pVal){is_visible = pVal;}
+
+		//Get visibility
+		bool get_visibility(){return is_visible;}
+
+		//Eat the heart
+		void eat(){is_eaten = true;};
+
+		//Get eaten status
+		bool is_eat(){return is_eaten;}
 
 		//Getter for heart_rect (will be used for collsion)
 		SDL_Rect* get_rect(){ return &heart_rect; }
