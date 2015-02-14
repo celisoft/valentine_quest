@@ -14,6 +14,7 @@
 #include "monster.h"
 #include "player.h"
 #include "heart.h"
+#include "door.h"
 
 using namespace std;
 
@@ -25,6 +26,7 @@ class Level
 		string lvl_music_path;
 		string lvl_map_path;
 		string lvl_player_path;
+		string lvl_door_path;
 
 		SDL_Surface* bg_image;
 		SDL_Texture* bg_texture;
@@ -39,6 +41,7 @@ class Level
 		vector<Heart> lvl_hearts;
 
 		Player lvl_player;
+		Door lvl_door;
 
 		Mix_Music* lvl_music;
 
@@ -62,13 +65,14 @@ class Level
 
 	public:
 		//Constructor
-		Level(string pBgPath, string pGroundPath, string pBgMusicPath, string pMapPath, string pPlayerPath)
+		Level(string pBgPath, string pGroundPath, string pBgMusicPath, string pMapPath, string pPlayerPath, string pDoorPath)
 		{
 			lvl_bg_path = pBgPath;
 			lvl_ground_path = pGroundPath;
 			lvl_music_path = pBgMusicPath;
 			lvl_map_path = pMapPath;
 			lvl_player_path = pPlayerPath;
+			lvl_door_path = pDoorPath;
 		}
 
 		//Player getter
@@ -104,12 +108,19 @@ class Level
 		//Check for collisiob between player_rect and heart
 		bool check_heart_collision();
 
+		//Check for collision between player_rect and door
+		bool check_door_collision();
+
+		//Return the number of heart that were not eaten
 		int get_remaining_hearts();
 
-		void show_door();
+		//Open the level door
+		void open_door();
 
+		//Generate random number between pMin & pMax
 		int get_random(int pMin, int pMax);
 
+		//Show an heart randomly
 		void set_random_heart_visible();
 
 		//Render the texture through given renderer

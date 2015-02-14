@@ -96,6 +96,9 @@ bool Level::load_map(string pMapFilepath)
 					case ']':
 						monster_x2 = col_idx;
 						break;
+					case 'D':
+						lvl_door = Door(lvl_door_path, col_idx, line_idx);
+						break;
 				}
 				col_idx++;
 			}
@@ -218,6 +221,19 @@ bool Level::check_heart_collision()
 	return false;
 }
 
+bool Level::check_door_collision()
+{
+	if(lvl_door.is_opened())
+	{
+		SDL_Rect* lRect = lvl_door.get_rect();
+		if(SDL_HasIntersection(lvl_player.get_rect(), lRect))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 //Render the texture through given renderer
 void Level::render(SDL_Renderer* pRenderer)
 {
@@ -237,6 +253,8 @@ void Level::render(SDL_Renderer* pRenderer)
 	{
 		lHeart.render(pRenderer);
 	}
+
+	lvl_door.render(pRenderer);
 }
 
 int Level::get_remaining_hearts()
@@ -252,10 +270,9 @@ int Level::get_remaining_hearts()
 	return remain;
 }
 
-void Level::show_door()
+void Level::open_door()
 {
-	//TODO implement door object
-	std::cout<< "Door appeared" << std::endl;
+	lvl_door.open();	
 }
 
 int Level::get_random(int pMin, int pMax)
@@ -279,4 +296,7 @@ void Level::set_random_heart_visible()
 	lvl_hearts[rand_val].set_visibility(true);
 }
 
-
+//void Level::dispose()
+//{
+//	
+//}

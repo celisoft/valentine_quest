@@ -67,6 +67,7 @@ bool GameWindow::run()
 		player = current_lvl->get_player();
 		if(current_lvl->is_finished())
 		{
+			current_lvl = nullptr;
 			if(!lvl_manager.prepare_next_level(renderer))
 			{
 				is_running = false;
@@ -84,13 +85,20 @@ bool GameWindow::run()
 				player_fall_down();
 				next_fall_down = current_time+80;
 			}
-
+		
+			//End the game if the player is killed	
+			if(current_lvl->check_monster_collision(player->get_rect()) == true)
+			{
+				player->kill();
+				is_running = false;
+			}
+			
+			//Check if the player get the visible heart
 			if(current_lvl->check_heart_collision())
 			{
 				if(current_lvl->get_remaining_hearts() == 0)
 				{
-					is_running = false;
-					//current_lvl->show_door();
+					current_lvl->open_door();
 				}
 				else
 				{
@@ -98,11 +106,10 @@ bool GameWindow::run()
 				}
 			}
 
-			//End the game if the player is killed	
-			if(current_lvl->check_monster_collision(player->get_rect()) == true)
+			//Check if the player is in front of the door
+			if(current_lvl->check_door_collision())
 			{
-				player->kill();
-				is_running = false;
+				current_lvl->set_finished();
 			}
 
 			//Move monster
@@ -121,9 +128,10 @@ bool GameWindow::run()
 			player->render(renderer);
 
 			SDL_RenderPresent(renderer);
-
+	
 			//Slow down cycles
 			SDL_Delay(16);
+		
 		}
 	}
 
@@ -147,7 +155,7 @@ bool GameWindow::run()
 	SDL_RenderPresent(renderer);
 
 	//Slow down cycles
-	SDL_Delay(1500);
+	SDL_Delay(1800);
 
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(display);

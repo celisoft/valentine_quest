@@ -28,16 +28,17 @@ bool LevelManager::load_level(std::string pLevelDescPath)
 	ifstream desc_file(pLevelDescPath);
 	if(desc_file.is_open())
 	{
-		std::string lvl_bg, lvl_ground, lvl_music, lvl_map, lvl_player;
+		std::string lvl_bg, lvl_ground, lvl_music, lvl_map, lvl_player, lvl_door;
 
 		getline(desc_file, lvl_bg);
 		getline(desc_file, lvl_ground);
 		getline(desc_file, lvl_music);
 		getline(desc_file, lvl_map);
 		getline(desc_file, lvl_player);
+		getline(desc_file, lvl_door);
 
 		desc_file.close();
-		levels.push_back(Level(lvl_bg, lvl_ground, lvl_music, lvl_map, lvl_player));
+		levels.push_back(Level(lvl_bg, lvl_ground, lvl_music, lvl_map, lvl_player, lvl_door));
 	}
 	else
 	{
@@ -52,6 +53,8 @@ bool LevelManager::prepare_next_level(SDL_Renderer* pRenderer)
 	int lvl_ind{0};
 	for(auto lvl : levels)
 	{
+
+		std::cout << "Level found" << std::endl;
 		if(!lvl.is_finished())
 		{
 			if(!lvl.load(pRenderer))

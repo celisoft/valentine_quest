@@ -16,18 +16,18 @@ class Door
 		SDL_Texture* door_texture;
 		SDL_Rect sprite_rect;
 		SDL_Rect door_rect;
-		bool is_visible = false;
+		bool is_open = false;
 
 	public:
 		//Constructor
-		Door(int pX=0, int pY=0, string pDoorPath="")
+		Door(string pDoorPath="", int pX=0, int pY=0)
 		{
 			pos = Position(pX, pY);
 
 			door_image = IMG_Load(pDoorPath.c_str());
 
-			sprite_rect.w = 64;
-			sprite_rect.h = 64;
+			sprite_rect.w = 128;
+			sprite_rect.h = 128;
 			sprite_rect.x = 0;
 			sprite_rect.y = 0;
 
@@ -37,11 +37,11 @@ class Door
 			door_rect.y = pos.get_y() * 64;
 		}
 
-		//Set visible
-		void set_visibility(bool pVal){is_visible = pVal;}
+		//Open the door
+		void open(){is_open=true;}
 
-		//Get visibility
-		bool get_visibility(){return is_visible;}
+		//Return boolean value indicating if the door is open
+		bool is_opened(){return is_open;}
 
 		//Getter for door_rect (will be used for collsion)
 		SDL_Rect* get_rect(){ return &door_rect; }
