@@ -61,10 +61,6 @@ bool LevelManager::prepare_next_level(SDL_Renderer* pRenderer)
 			{
 				return false;
 			}
-			
-			//Play background music
-			lvl.play_bg_music();
-
 			current_level = lvl_ind;
 
 			return true;
