@@ -16,6 +16,7 @@ class Player
 	SDL_Texture* player_texture;
 	SDL_Rect sprite_rect;
 	SDL_Rect player_rect;
+	bool is_jump = false;	
 	bool is_dead = false;
 
 	public:
@@ -48,6 +49,12 @@ class Player
 
 		//Getter for player_rect (will be used for collsion)
 		SDL_Rect* get_rect(){ return &player_rect; }
+
+		void jump(){is_jump=true;}
+	
+		void walk(){is_jump=false;}
+
+		bool is_jumping(){return is_jump;}
 
 		//Set the player position to the given position
 		void set_pos(Position pPosition);

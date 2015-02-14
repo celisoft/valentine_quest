@@ -82,8 +82,16 @@ bool GameWindow::run()
 			//Simulate gravity
 			if(current_time > next_fall_down)
 			{
-				player_fall_down();
-				next_fall_down = current_time+80;
+				if(player->is_jumping())
+				{
+					next_fall_down = current_time+80;
+					player->walk();
+				}
+				else
+				{
+					player_fall_down();
+					next_fall_down = current_time+80;
+				}
 			}
 		
 			//End the game if the player is killed	
@@ -191,6 +199,10 @@ void GameWindow::on_event(SDL_Event* pEvent)
 					if(current_lvl->check_ground_collision(player->get_rect()) == true)
 					{
 						player->move_y(1);
+					}
+					else
+					{
+						player->jump();
 					}
 					break;
 			}
