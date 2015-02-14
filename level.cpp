@@ -47,6 +47,9 @@ bool Level::load(SDL_Renderer* pRenderer)
 
 	is_load = true;
 
+	//Play background music
+	play_bg_music();
+
 	return true;
 }
 
