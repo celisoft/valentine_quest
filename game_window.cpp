@@ -133,7 +133,6 @@ bool GameWindow::run()
 			}
 
 			current_lvl->render(renderer);
-			player->render(renderer);
 
 			SDL_RenderPresent(renderer);
 	

@@ -53,8 +53,6 @@ bool LevelManager::prepare_next_level(SDL_Renderer* pRenderer)
 	int lvl_ind{0};
 	for(auto lvl : levels)
 	{
-
-		std::cout << "Level found" << std::endl;
 		if(!lvl.is_finished())
 		{
 			if(!lvl.load(pRenderer))
@@ -62,6 +60,7 @@ bool LevelManager::prepare_next_level(SDL_Renderer* pRenderer)
 				return false;
 			}
 			current_level = lvl_ind;
+			levels[lvl_ind-1].unload();
 
 			return true;
 		}
