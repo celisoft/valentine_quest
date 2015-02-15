@@ -44,6 +44,8 @@ class Level
 		Door lvl_door;
 
 		Mix_Music* lvl_music;
+		Mix_Chunk* lvl_beep;
+		Mix_Chunk* lvl_door_open;
 
 		//Add rect to lvl_ground vector
 		void add_rect(int pX, int pY);
@@ -80,7 +82,9 @@ class Level
 
 		//Load the level
 		bool load(SDL_Renderer* pRenderer);
-		
+
+		void unload();
+
 		//Setter for is_finished indicator
 		void set_finished(){is_finish = true;}
 

@@ -38,12 +38,27 @@ bool Level::load(SDL_Renderer* pRenderer)
 		return false;
 	}
 
-	//Initialize the sound
+	//Initialize the music
 	lvl_music = Mix_LoadMUS(lvl_music_path.c_str());
 	if(!lvl_music)
 	{
 		return false;
 	}
+
+	//Initialize the beep sound
+	lvl_beep = Mix_LoadWAV("assets/sfx/beep.wav");
+	if(lvl_beep == nullptr)
+	{
+		return false;
+	}
+	Mix_VolumeChunk(lvl_beep, 60);
+
+	lvl_door_open = Mix_LoadWAV("assets/sfx/door_open.ogg");
+	if(lvl_door_open == nullptr)
+	{
+		return false;
+	}
+	Mix_VolumeChunk(lvl_door_open, 30);
 
 	is_load = true;
 
@@ -53,6 +68,27 @@ bool Level::load(SDL_Renderer* pRenderer)
 	return true;
 }
 
+//Unload level
+void Level::unload()
+{
+	//Destroy textures
+	SDL_DestroyTexture(bg_texture);
+	SDL_DestroyTexture(lvl_texture);
+	SDL_DestroyTexture(lvl_player.get_texture());
+	SDL_DestroyTexture(lvl_door.get_texture());
+	for(auto& lMonster : lvl_monsters)
+	{
+		SDL_DestroyTexture(lMonster.get_texture());
+	}
+
+	//Stop music
+	Mix_HaltMusic();
+	Mix_FreeMusic(lvl_music);
+
+	//Free sounds
+	Mix_FreeChunk(lvl_beep);
+	Mix_FreeChunk(lvl_door_open);
+}
 
 //Add rect to lvl_ground vector
 void Level::add_rect(int pX, int pY)
@@ -150,7 +186,7 @@ void Level::move_monsters()
 	}
 }
 
-//Initialize the texture to be rendered
+//Initialize textures to be rendered
 bool Level::init_textures(SDL_Renderer* pRenderer)
 {
 	bg_texture = SDL_CreateTextureFromSurface(pRenderer, bg_image);
@@ -167,16 +203,32 @@ bool Level::init_textures(SDL_Renderer* pRenderer)
 	}
 	SDL_FreeSurface(lvl_image);
 
+	for(auto& lMonster : lvl_monsters)
+	{
+		if(!lMonster.init_texture(pRenderer))
+		{
+			return false;
+		}
+	}
+	
+	if(!lvl_door.init_texture(pRenderer))
+	{
+		return false;
+	}
+
+	if(!lvl_player.init_texture(pRenderer))
+	{
+		return false;
+	}
+
 	return true;
 }
 
 //Launch the music
 void Level::play_bg_music()
 {
-	if(Mix_PlayMusic(lvl_music, -1) == -1)
-	{
-		std::cout << "Marche po !! " << Mix_GetError() << std::endl; 
-	}
+	Mix_PlayMusic(lvl_music, -1);
+	Mix_VolumeMusic(30);
 }
 
 //Check for collision with a given SDL_Rect
@@ -215,6 +267,9 @@ bool Level::check_heart_collision()
 			SDL_Rect* lRect = lHeart.get_rect();
 			if(SDL_HasIntersection(lvl_player.get_rect(), lRect))
 			{
+				//Play the beep !
+				Mix_PlayChannel(-1, lvl_beep, 0);
+				
 				lHeart.set_visibility(false);
 				lHeart.eat();
 				return true;
@@ -257,6 +312,7 @@ void Level::render(SDL_Renderer* pRenderer)
 		lHeart.render(pRenderer);
 	}
 
+	lvl_player.render(pRenderer);
 	lvl_door.render(pRenderer);
 }
 
@@ -275,6 +331,7 @@ int Level::get_remaining_hearts()
 
 void Level::open_door()
 {
+	Mix_PlayChannel(-1, lvl_door_open, 0);
 	lvl_door.open();	
 }
 
@@ -299,7 +356,3 @@ void Level::set_random_heart_visible()
 	lvl_hearts[rand_val].set_visibility(true);
 }
 
-//void Level::dispose()
-//{
-//	
-//}
