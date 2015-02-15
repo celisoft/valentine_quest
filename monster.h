@@ -57,6 +57,12 @@ class Monster
 		//Getter for monster_rect (will be used for collsion)
 		SDL_Rect* get_rect(){ return &monster_rect; }
 
+		//Initialize the monster texture
+		bool init_texture(SDL_Renderer* pRenderer);
+
+		//Getter for monster texture
+		SDL_Texture* get_texture(){return monster_texture;}	
+
 		//Set the player position to the given position
 		void set_pos(Position pPosition);
 		

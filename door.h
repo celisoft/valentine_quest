@@ -49,6 +49,11 @@ class Door
 		//Render the texture through given renderer
 		void render(SDL_Renderer* pRenderer);
 
+		//Initialize texture
+		bool init_texture(SDL_Renderer* pRenderer);
+
+		//Getter for door texture
+		SDL_Texture* get_texture(){return door_texture;}
 };
 
 #endif

@@ -1,9 +1,20 @@
 #include "player.h"
 
+//Initialize texture
+bool Player::init_texture(SDL_Renderer* pRenderer)
+{
+	player_texture = SDL_CreateTextureFromSurface(pRenderer, player_image);
+	if(player_texture <= 0)
+	{
+		return false;
+	}
+	SDL_FreeSurface(player_image);
+	return true;
+}
+
 //Render the texture through given renderer
 void Player::render(SDL_Renderer* pRenderer)
 {
-	player_texture = SDL_CreateTextureFromSurface(pRenderer, player_image);
 	SDL_RenderCopy(pRenderer, player_texture, &sprite_rect, &player_rect);
 }
 

@@ -50,6 +50,12 @@ class Player
 		//Getter for player_rect (will be used for collsion)
 		SDL_Rect* get_rect(){ return &player_rect; }
 
+		//Initialize texture
+		bool init_texture(SDL_Renderer* pRenderer);
+
+		//Getter for player texture
+		SDL_Texture* get_texture(){return player_texture;}
+
 		void jump(){is_jump=true;}
 	
 		void walk(){is_jump=false;}

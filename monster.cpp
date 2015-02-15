@@ -1,9 +1,20 @@
 #include "monster.h"
 
+//Initialize texture
+bool Monster::init_texture(SDL_Renderer* pRenderer)
+{
+	monster_texture = SDL_CreateTextureFromSurface(pRenderer, monster_image);
+	if(monster_texture <= 0)
+	{
+		return false;
+	}
+	SDL_FreeSurface(monster_image);
+	return true;
+}
+
 //Render the texture through given renderer
 void Monster::render(SDL_Renderer* pRenderer)
 {
-	monster_texture = SDL_CreateTextureFromSurface(pRenderer, monster_image);
 	SDL_RenderCopy(pRenderer, monster_texture, &sprite_rect, &monster_rect);
 }
 
