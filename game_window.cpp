@@ -1,7 +1,12 @@
 #include "game_window.h"
 
+#ifdef __APPLE__
+#include <SDL2_image/SDL_image.h>
+#include <SDL2_mixer/SDL_mixer.h>
+#else
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
+#endif
 
 //Initialize an 1024x768 SDL window
 bool GameWindow::init()
