@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+cd /opt/valentine_quest/
+./valentine_quest
