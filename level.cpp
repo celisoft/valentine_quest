@@ -312,8 +312,8 @@ void Level::render(SDL_Renderer* pRenderer)
 		lHeart.render(pRenderer);
 	}
 
-	lvl_player.render(pRenderer);
 	lvl_door.render(pRenderer);
+	lvl_player.render(pRenderer);
 }
 
 int Level::get_remaining_hearts()
