@@ -1,5 +1,5 @@
 #Define vars
-CC = clang++
+CC = g++
 FLAGS = -Wall -std=c++11
 LIBS = -lSDL2 -lSDL2_image -lSDL2_mixer
 EXEC = valentine_quest
