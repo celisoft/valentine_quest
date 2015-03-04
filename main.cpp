@@ -7,6 +7,7 @@
 #include <string>
 
 #include "game_window.h"
+#undef main
 
 using namespace std;
 
