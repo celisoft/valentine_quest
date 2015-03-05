@@ -1,6 +1,5 @@
-assets/backgrounds/bg_aqualienne.png
-assets/grounds/ground_aqua.png
-assets/sfx/aqua.ogg
-data/02/lvl_map
-assets/players/aqualienne.png
-assets/doors/door_aqua.png
+backgrounds/bg_aqualienne.png
+grounds/ground_aqua.png
+sfx/aqua.ogg
+players/aqualienne.png
+doors/door_aqua.png

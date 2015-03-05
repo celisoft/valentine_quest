@@ -12,17 +12,26 @@ using namespace std;
 class LevelManager
 {
 	private:
-		const string LEVEL_BASE_PATH = "data";
-		const string INDEX_FILEPATH = LEVEL_BASE_PATH + "/lvl_index";
+		const string INDEX_FILENAME = "lvl_index";
 		const string LEVEL_DESC_FILENAME = "lvl_desc";
+		const string LEVEL_MAP_FILENAME = "lvl_map";
+
+		string level_base_path;
+		string level_data_path;
+		string level_asset_path;
+
+		string index_path;
 
 		vector<Level> levels;
 		int current_level = 0;
 
+		//initialize paths
+		void init_paths();
 	public:
 		//Constructor
 		LevelManager()
 		{
+			init_paths();
 		}
 
 		//Load the lvl_index file

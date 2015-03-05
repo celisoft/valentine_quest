@@ -1,6 +1,5 @@
-assets/backgrounds/bg_soltarien.png
-assets/grounds/ground_soltar.png
-assets/sfx/sol.ogg
-data/06/lvl_map
-assets/players/soltarien.png
-assets/doors/door_soltar.png
+backgrounds/bg_soltarien.png
+grounds/ground_soltar.png
+sfx/sol.ogg
+players/soltarien.png
+doors/door_soltar.png
