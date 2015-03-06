@@ -1,6 +1,5 @@
 #include "level_manager.h"
 #include <fstream>
-#include <iostream>
 
 //Init paths
 void LevelManager::init_paths()
@@ -23,7 +22,7 @@ void LevelManager::init_paths()
 }
 
 //Load the lvl_index file
-bool LevelManager::load_index()
+bool LevelManager::load_index(SDL_Renderer* pRenderer)
 {
 	ifstream index_file(index_path);
 	if(index_file.is_open())
@@ -39,6 +38,12 @@ bool LevelManager::load_index()
 	{
 		return false;
 	}
+
+	if(!levels[current_level].load(pRenderer))
+	{
+		return false;
+	}
+
 	return true;	
 }
 
@@ -74,11 +79,50 @@ bool LevelManager::load_level(std::string pId)
 	return true;
 }
 
+//Display the current level
+bool LevelManager::display(SDL_Renderer* pRenderer)
+{
+	if(!levels[current_level].is_loaded())
+	{
+		levels[current_level].load(pRenderer);
+	}
+	else
+	{
+		if(levels[current_level].is_finished())
+		{
+			if(!prepare_next_level(pRenderer))
+			{
+				return false;
+			}
+		}
+	}
+
+	if(!levels[current_level].render(pRenderer))
+	{
+		reset_progress();
+		return false;
+	}
+
+	return true;
+}
+
+//Reset played levels
+void LevelManager::reset_progress()
+{
+	for(int l=0; l<=current_level; l++)
+	{
+		levels[l].unfinish();
+		levels[l].unload();
+	}
+
+	current_level = 0;
+}
+
 //Start the next level and return it
 bool LevelManager::prepare_next_level(SDL_Renderer* pRenderer)
 {
 	int lvl_ind{0};
-	for(auto lvl : levels)
+	for(auto &lvl : levels)
 	{
 		if(!lvl.is_finished())
 		{
@@ -87,7 +131,6 @@ bool LevelManager::prepare_next_level(SDL_Renderer* pRenderer)
 				return false;
 			}
 			current_level = lvl_ind;
-			levels[lvl_ind-1].unload();
 
 			return true;
 		}
@@ -96,12 +139,8 @@ bool LevelManager::prepare_next_level(SDL_Renderer* pRenderer)
 	return false;
 }
 
-Level* LevelManager::get_current_level(SDL_Renderer* pRenderer) 
+//Event dispatcher
+void LevelManager::on_event(SDL_Event* pEvent)
 {
-	if(!levels[current_level].is_loaded())
-	{
-		levels[current_level].load(pRenderer);
-	}
-	return &levels[current_level];
+	levels[current_level].on_event(pEvent);
 }
-

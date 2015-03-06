@@ -59,6 +59,34 @@ void Player::move_x(int step=1)
 	player_rect.x = pos.get_x() * STEP_X;
 }
 
+//PLayer fall
+bool Player::fall(vector<SDL_Rect> ground)
+{
+	//Update the rect
+	pos.set_y(pos.get_y()+1);
+	player_rect.y = pos.get_y() * STEP_Y;
+			
+	if(has_intersection(ground))
+	{
+		pos.set_y(pos.get_y()-1);
+		player_rect.y = pos.get_y() * STEP_Y;
+		return false;
+	}
+	return true;
+}
+
+bool Player::has_intersection(vector<SDL_Rect> sdl_rect_vector)
+{
+	for(auto lRect : sdl_rect_vector)
+	{
+		if(SDL_HasIntersection(&player_rect, &lRect))
+		{
+			return true;			
+		}
+	}
+	return false;
+}
+
 //Move on Y axis with a default step of 1
 void Player::move_y(int step=1)
 {

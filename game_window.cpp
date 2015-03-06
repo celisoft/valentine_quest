@@ -43,15 +43,6 @@ bool GameWindow::init()
 	return true;
 }
 
-void GameWindow::player_fall_down()
-{
-	player->move_y(1);
-	if(current_lvl->check_ground_collision(player->get_rect()) == true)
-	{
-		player->move_y(-1);
-	}
-}
-
 bool GameWindow::run()
 {
 	is_running = init();
@@ -60,114 +51,72 @@ bool GameWindow::run()
 		//Init phase fails
 		return false;
 	}
-		
+
+	if(!menu.load(renderer))
+	{
+		return false;
+	}
+
+	if(!lvl_manager.load_index(renderer))
+	{
+		return false;
+	}
+
 	SDL_Event lEvent;
-	int current_time{0};
-	int next_fall_down{0};
-	int next_monster_move{0};
 
 	while(is_running)
 	{
-		current_lvl = lvl_manager.get_current_level(renderer);
-		player = current_lvl->get_player();
-		if(current_lvl->is_finished())
+		SDL_RenderClear(renderer);
+
+		if(!is_playing)
 		{
-			current_lvl = nullptr;
-			if(!lvl_manager.prepare_next_level(renderer))
-			{
-				is_running = false;
-			}
+			menu.display(renderer);
 		}
 		else
 		{
-			SDL_RenderClear(renderer);
-		
-			current_time = SDL_GetTicks();
-
-			//Simulate gravity
-			if(current_time > next_fall_down)
-			{
-				if(player->is_jumping())
-				{
-					next_fall_down = current_time+80;
-					player->walk();
-				}
-				else
-				{
-					player_fall_down();
-					next_fall_down = current_time+80;
-				}
-			}
-		
-			//End the game if the player is killed	
-			if(current_lvl->check_monster_collision(player->get_rect()) == true)
-			{
-				player->kill();
-				is_running = false;
-			}
-			
-			//Check if the player get the visible heart
-			if(current_lvl->check_heart_collision())
-			{
-				if(current_lvl->get_remaining_hearts() == 0)
-				{
-					current_lvl->open_door();
-				}
-				else
-				{
-					current_lvl->set_random_heart_visible();
-				}
-			}
-
-			//Check if the player is in front of the door
-			if(current_lvl->check_door_collision())
-			{
-				current_lvl->set_finished();
-			}
-
-			//Move monster
-			if(current_time > next_monster_move)
-			{
-				current_lvl->move_monsters();
-				next_monster_move = current_time+150;
-			}
-
-			if(SDL_PollEvent(&lEvent))
-			{
-				on_event(&lEvent);
-			}
-
-			current_lvl->render(renderer);
-
-			SDL_RenderPresent(renderer);
-	
-			//Slow down cycles
-			SDL_Delay(16);
-		
+			is_playing = lvl_manager.display(renderer);
 		}
+
+		if(SDL_PollEvent(&lEvent))
+		{
+			on_event(&lEvent);
+			if(!is_playing)
+			{
+				is_playing = menu.check_event(&lEvent);
+			}
+			else
+			{
+				lvl_manager.on_event(&lEvent);
+			}
+		}
+
+		SDL_RenderPresent(renderer);
+	
+		//Slow down cycles
+		SDL_Delay(16);
 	}
 
 	//Display the user an happy ending or not
-	SDL_Surface* ending_image = IMG_Load("assets/happyend.png");
-	if(player->is_alive() == false)
-	{
-		ending_image = IMG_Load("assets/gameover.png");
-	}
-	SDL_Texture* ending_texture = SDL_CreateTextureFromSurface(renderer, ending_image);	
-	SDL_FreeSurface(ending_image);
+	//SDL_Surface* ending_image = IMG_Load("assets/happyend.png");
+	//if(player->is_alive() == false)
+	//{
+	//	ending_image = IMG_Load("assets/gameover.png");
+	//}
+	//SDL_Texture* ending_texture = SDL_CreateTextureFromSurface(renderer, ending_image);	
+	//SDL_FreeSurface(ending_image);
 	
-	SDL_Rect ending_rect;
-	ending_rect.w = 1024;
-	ending_rect.h = 768;
-	ending_rect.x = 0;
-	ending_rect.y = 0;
+	//SDL_Rect ending_rect;
+	//ending_rect.w = 1024;
+	//ending_rect.h = 768;
+	//ending_rect.x = 0;
+	//ending_rect.y = 0;
 
-	SDL_RenderClear(renderer);
-	SDL_RenderCopy(renderer, ending_texture, &ending_rect, &ending_rect); 
-	SDL_RenderPresent(renderer);
+	//SDL_RenderClear(renderer);
+	//SDL_RenderCopy(renderer, ending_texture, &ending_rect, &ending_rect); 
+	//SDL_RenderPresent(renderer);
 
 	//Slow down cycles
-	SDL_Delay(1800);
+	//SDL_Delay(1800);
 
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(display);
@@ -181,36 +130,6 @@ void GameWindow::on_event(SDL_Event* pEvent)
 {
 	switch(pEvent->type)
 	{
-		case SDL_KEYDOWN:
-			switch(pEvent->key.keysym.sym)
-			{
-				case SDLK_LEFT:
-					player->move_x(-1);
-					if(current_lvl->check_ground_collision(player->get_rect()) == true)
-					{
-						player->move_x(1);
-					}
-					break;
-				case SDLK_RIGHT:
-					player->move_x(1);
-					if(current_lvl->check_ground_collision(player->get_rect()) == true)
-					{
-						player->move_x(-1);
-					}
-					break;
-				case SDLK_UP:
-					player->move_y(-2);
-					if(current_lvl->check_ground_collision(player->get_rect()) == true)
-					{
-						player->move_y(1);
-					}
-					else
-					{
-						player->jump();
-					}
-					break;
-			}
-			break;
 		case SDL_QUIT:
 			is_running = false;
 			break;

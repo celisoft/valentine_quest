@@ -27,6 +27,10 @@ using namespace std;
 class Level
 {
 	private:
+		int current_time{0};
+		int next_fall_down{0};
+		int next_monster_move{0};
+		
 		string lvl_bg_path;
 		string lvl_ground_path;
 		string lvl_music_path;
@@ -83,16 +87,14 @@ class Level
 			lvl_door_path = pDoorPath;
 		}
 
-		//Player getter
-		Player* get_player(){return &lvl_player;}
-
 		//Load the level
 		bool load(SDL_Renderer* pRenderer);
 
+		//Unload the level (cleanup memory)
 		void unload();
 
-		//Setter for is_finished indicator
-		void set_finished(){is_finish = true;}
+		//Unifnish the level
+		void unfinish(){is_finish = false;}
 
 		//Getter for is_finished indicator
 		bool is_finished(){return is_finish;}
@@ -110,10 +112,10 @@ class Level
 		void move_monsters();
 
 		//Check for collision with a given SDL_Rect
-		bool check_ground_collision(SDL_Rect* pPlayer);
+		bool check_ground_collision();
 
 		//Check for collision between player_rect and monsters
-		bool check_monster_collision(SDL_Rect* pPlayer);
+		bool check_monster_collision();
 
 		//Check for collisiob between player_rect and heart
 		bool check_heart_collision();
@@ -134,7 +136,10 @@ class Level
 		void set_random_heart_visible();
 
 		//Render the texture through given renderer
-		void render(SDL_Renderer* pRenderer);
+		bool render(SDL_Renderer* pRenderer);
+
+		//event catcher
+		void on_event(SDL_Event* pEvent);
 };
 
 #endif

@@ -3,6 +3,7 @@
 
 #include "position.h"
 #include <string>
+#include <vector>
 #include <SDL2/SDL.h>
 
 #ifdef __APPLE__
@@ -15,7 +16,6 @@ using namespace std;
 
 class Player
 {
- 	int score;  
 	Position pos;
 	SDL_Surface* player_image;	
 	SDL_Texture* player_texture;
@@ -36,7 +36,6 @@ class Player
 		//Constructors
 		Player(string pSpritePath="", int pX=0, int pY=0)
 		{
-			score = 0;
 			pos = Position(pX, pY);
 
 			player_image = IMG_Load(pSpritePath.c_str());
@@ -73,12 +72,12 @@ class Player
 		//Kill the player
 		void kill(){is_dead = true;}
 
+		//Reborn the player
+		void reborn(){is_dead = false;}
+
 		//Check if player is alive
 		bool is_alive(){return !is_dead;}
 
-		//Increase score
-		void increase_score(){ score++; }
-		
 		//Render the texture through given renderer
 		void render(SDL_Renderer* pRenderer);
 
@@ -87,6 +86,11 @@ class Player
 
 		//Move on Y axis
 		void move_y(int step);
-};
 
+		//Let the user falls if he's not on the groud
+		bool fall(vector<SDL_Rect> ground);
+
+		//Check if player has instersection with given SDL_Rects
+		bool has_intersection(vector<SDL_Rect> sdl_rect_vector);
+};
 #endif

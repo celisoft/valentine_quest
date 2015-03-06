@@ -27,6 +27,10 @@ class LevelManager
 
 		//initialize paths
 		void init_paths();
+
+		//Return the next level
+		bool prepare_next_level(SDL_Renderer* pRenderer);
+
 	public:
 		//Constructor
 		LevelManager()
@@ -35,16 +39,19 @@ class LevelManager
 		}
 
 		//Load the lvl_index file
-		bool load_index();
+		bool load_index(SDL_Renderer* pRenderer);
 
 		//Load level and add it to levels vector
 		bool load_level(string pLevelDescPath);
 
-		//Return the next level
-		bool prepare_next_level(SDL_Renderer* pRenderer);
+		//Display the current level
+		bool display(SDL_Renderer* pRenderer);
 
-		//Return the current level
-		Level* get_current_level(SDL_Renderer* pRenderer);
+		//Reset progression
+		void reset_progress();
+
+		//Event dispatcher
+		void on_event(SDL_Event* pEvent);	
 };
 
 #endif

@@ -2,20 +2,19 @@
 #define GAME_WINDOW_H
 
 #include <SDL2/SDL.h>
-#include "level.h"
+#include "menu.h"
 #include "level_manager.h"
-#include "player.h"
-#include <iostream>
 
 class GameWindow
 {
 	private:
- 		bool is_running;   
+ 		bool is_running;  
+		bool is_playing = false;
+
 		SDL_Window* display;
 		SDL_Renderer* renderer;
 
-		Level* current_lvl;
-		Player* player;
+		Menu menu;
 		LevelManager lvl_manager;
 
 	public:
@@ -24,11 +23,6 @@ class GameWindow
 		{
 			display = nullptr;
 			renderer = nullptr;
-
-			if(!lvl_manager.load_index())
-			{
-				std::cout << "Bad file !!" << std::endl;
-			}
 		}
 
 		//Initialize the game display
@@ -39,9 +33,6 @@ class GameWindow
 
 		//Catch game events
 		void on_event(SDL_Event* event);
-
-		//Imitate gravity for player
-		void player_fall_down();
 };
 
 #endif

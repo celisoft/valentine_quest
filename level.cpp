@@ -4,7 +4,6 @@
 #include <chrono>
 #include <random>
 
-
 //Load the level
 bool Level::load(SDL_Renderer* pRenderer)
 {
@@ -88,6 +87,13 @@ void Level::unload()
 	//Free sounds
 	Mix_FreeChunk(lvl_beep);
 	Mix_FreeChunk(lvl_door_open);
+
+	lvl_ground.clear();
+	lvl_monsters.clear();
+	lvl_hearts.clear();
+	lvl_player.reborn();
+
+	is_load = false;
 }
 
 //Add rect to lvl_ground vector
@@ -232,11 +238,11 @@ void Level::play_bg_music()
 }
 
 //Check for collision with a given SDL_Rect
-bool Level::check_ground_collision(SDL_Rect* pPlayer)
+bool Level::check_ground_collision()
 {
 	for(auto lGroundRect : lvl_ground)
 	{
-		if(SDL_HasIntersection(pPlayer, &lGroundRect))
+		if(SDL_HasIntersection(lvl_player.get_rect(), &lGroundRect))
 		{
 			return true;			
 		}
@@ -245,11 +251,11 @@ bool Level::check_ground_collision(SDL_Rect* pPlayer)
 }
 
 //Check for collision between player_rect and the monsters
-bool Level::check_monster_collision(SDL_Rect* pPlayer)
+bool Level::check_monster_collision()
 {
 	for(auto lMonster : lvl_monsters)
 	{
-		if(SDL_HasIntersection(pPlayer, lMonster.get_rect()))
+		if(SDL_HasIntersection(lvl_player.get_rect(), lMonster.get_rect()))
 		{
 			return true;			
 		}
@@ -293,7 +299,7 @@ bool Level::check_door_collision()
 }
 
 //Render the texture through given renderer
-void Level::render(SDL_Renderer* pRenderer)
+bool Level::render(SDL_Renderer* pRenderer)
 {
 	SDL_RenderCopy(pRenderer, bg_texture, &bg_rect, &bg_rect);
 
@@ -313,7 +319,56 @@ void Level::render(SDL_Renderer* pRenderer)
 	}
 
 	lvl_door.render(pRenderer);
+
+	current_time = SDL_GetTicks();
+	if(current_time > next_fall_down)
+	{
+		if(lvl_player.is_jumping())
+		{
+			lvl_player.walk();
+		}
+		else
+		{
+			lvl_player.fall(lvl_ground);
+		}
+		next_fall_down = current_time + 80;
+	}
+
+	//Check if the player get the visible heart
+	if(check_heart_collision())
+	{
+		if(get_remaining_hearts() == 0)
+		{
+			open_door();
+		}
+		else
+		{
+			set_random_heart_visible();
+		}
+	}
+
+	//Check if the player is in front of the door
+	if(check_door_collision())
+	{
+		is_finish = true;
+	}
+
+	//End the game if the player is killed	
+	if(check_monster_collision() == true)
+	{
+		lvl_player.kill();
+		return false;
+	}
+
+	//Move monster
+	if(current_time > next_monster_move)
+	{
+		move_monsters();
+		next_monster_move = current_time+150;
+	}
+
 	lvl_player.render(pRenderer);
+	return true;
 }
 
 int Level::get_remaining_hearts()
@@ -356,3 +411,40 @@ void Level::set_random_heart_visible()
 	lvl_hearts[rand_val].set_visibility(true);
 }
 
+//Handle SDL events 
+void Level::on_event(SDL_Event* pEvent)
+{
+	switch(pEvent->type)
+	{
+		case SDL_KEYDOWN:
+			switch(pEvent->key.keysym.sym)
+			{
+				case SDLK_LEFT:
+					lvl_player.move_x(-1);
+					if(check_ground_collision() == true)
+					{
+						lvl_player.move_x(1);
+					}
+					break;
+				case SDLK_RIGHT:
+					lvl_player.move_x(1);
+					if(check_ground_collision() == true)
+					{
+						lvl_player.move_x(-1);
+					}
+					break;
+				case SDLK_UP:
+					lvl_player.move_y(-2);
+					if(check_ground_collision() == true)
+					{
+						lvl_player.move_y(1);
+					}
+					else
+					{
+						lvl_player.jump();
+					}
+					break;
+			}
+			break;
+	}
+}	
