@@ -45,14 +45,14 @@ bool Level::load(SDL_Renderer* pRenderer)
 	}
 
 	//Initialize the beep sound
-	lvl_beep = Mix_LoadWAV("assets/sfx/beep.wav");
+	lvl_beep = Mix_LoadWAV((lvl_asset_path + "sfx/beep.wav").c_str());
 	if(lvl_beep == nullptr)
 	{
 		return false;
 	}
 	Mix_VolumeChunk(lvl_beep, 60);
 
-	lvl_door_open = Mix_LoadWAV("assets/sfx/door_open.ogg");
+	lvl_door_open = Mix_LoadWAV((lvl_asset_path + "sfx/door_open.ogg").c_str());
 	if(lvl_door_open == nullptr)
 	{
 		return false;
@@ -75,9 +75,14 @@ void Level::unload()
 	SDL_DestroyTexture(lvl_texture);
 	SDL_DestroyTexture(lvl_player.get_texture());
 	SDL_DestroyTexture(lvl_door.get_texture());
+	
 	for(auto& lMonster : lvl_monsters)
 	{
-		SDL_DestroyTexture(lMonster.get_texture());
+		lMonster.dispose();
+	}
+	for(auto& lHeart : lvl_hearts)
+	{
+		lHeart.dispose();	
 	}
 
 	//Stop music
@@ -170,12 +175,12 @@ bool Level::load_map(string pMapFilepath)
 //Generate new monster
 void Level::create_monster(int pXmin, int pXmax, int pY)
 {
-	lvl_monsters.push_back(Monster(pXmin, pXmax, pY));
+	lvl_monsters.push_back(Monster(lvl_asset_path, pXmin, pXmax, pY));
 }
 
 void Level::create_heart(int pX, int pY)
 {
-	Heart tmp_heart = Heart(pX, pY);
+	Heart tmp_heart = Heart(lvl_asset_path, pX, pY);
 	if(lvl_hearts.size() == 0)
 	{
 		tmp_heart.set_visibility(true);
@@ -216,7 +221,15 @@ bool Level::init_textures(SDL_Renderer* pRenderer)
 			return false;
 		}
 	}
-	
+
+	for(auto& lHeart : lvl_hearts)
+	{
+		if(!lHeart.init_texture(pRenderer))
+		{
+			return false;
+		}
+	}
+
 	if(!lvl_door.init_texture(pRenderer))
 	{
 		return false;

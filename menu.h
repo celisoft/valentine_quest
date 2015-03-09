@@ -28,7 +28,10 @@ class Menu
 		}
 
 		//Create the texture from surface
-		bool load(SDL_Renderer* pRenderer);
+		bool load(SDL_Renderer* pRenderer, std::string pPath);
+
+		//Unload the menu
+		void dispose();
 
 		//Display the menu
 		void display(SDL_Renderer* pRenderer);

@@ -14,6 +14,7 @@ class GameWindow
 		SDL_Window* display;
 		SDL_Renderer* renderer;
 
+		std::string base_path;
 		Menu menu;
 		LevelManager lvl_manager;
 

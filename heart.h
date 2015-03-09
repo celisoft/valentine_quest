@@ -10,6 +10,8 @@
 #include <SDL2/SDL_image.h>
 #endif
 
+#include <string>
+
 class Heart
 {
 	private:
@@ -18,16 +20,17 @@ class Heart
 		SDL_Texture* heart_texture;
 		SDL_Rect sprite_rect;
 		SDL_Rect heart_rect;
+
 		bool is_visible = false;
 		bool is_eaten = false;
 
 	public:
 		//Constructor
-		Heart(int pX, int pY)
+		Heart(std::string pPath, int pX, int pY)
 		{
 			pos = Position(pX, pY);
 
-			heart_image = IMG_Load("assets/heart.png");
+			heart_image = IMG_Load((pPath + "heart.png").c_str());
 
 			sprite_rect.w = 64;
 			sprite_rect.h = 64;
@@ -57,10 +60,15 @@ class Heart
 
 		//Set the player position to the given position
 		void set_pos(Position pPosition);
-		
+	
+		//Load the texture
+		bool init_texture(SDL_Renderer* pRenderer);
+
 		//Render the texture through given renderer
 		void render(SDL_Renderer* pRenderer);
 
+		//Destroy
+		void dispose();
 };
 
 #endif

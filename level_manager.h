@@ -19,14 +19,13 @@ class LevelManager
 		string level_base_path;
 		string level_data_path;
 		string level_asset_path;
-
 		string index_path;
 
 		vector<Level> levels;
 		int current_level = 0;
 
 		//initialize paths
-		void init_paths();
+		void init_paths(string pPath);
 
 		//Return the next level
 		bool prepare_next_level(SDL_Renderer* pRenderer);
@@ -35,11 +34,10 @@ class LevelManager
 		//Constructor
 		LevelManager()
 		{
-			init_paths();
 		}
 
 		//Load the lvl_index file
-		bool load_index(SDL_Renderer* pRenderer);
+		bool load_index(SDL_Renderer* pRenderer, string pPath);
 
 		//Load level and add it to levels vector
 		bool load_level(string pLevelDescPath);

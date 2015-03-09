@@ -2,28 +2,18 @@
 #include <fstream>
 
 //Init paths
-void LevelManager::init_paths()
+void LevelManager::init_paths(string pPath)
 {
-	char* path = SDL_GetBasePath();
-	if(path == nullptr)
-	{
-		level_base_path = SDL_strdup("./");
-		level_data_path = SDL_strdup("./data/");
-		level_asset_path = SDL_strdup("./assets/");	
-	}
-	else
-	{
-		level_base_path = SDL_strdup(path);
-		level_data_path = level_base_path + "data/";
-		level_asset_path = level_base_path + "assets/";
-		index_path = level_data_path + INDEX_FILENAME;
-		SDL_free(path);
-	}
+	level_base_path = pPath;
+	level_data_path = level_base_path + "data/";
+	level_asset_path = level_base_path + "assets/";
+	index_path = level_data_path + INDEX_FILENAME;
 }
 
 //Load the lvl_index file
-bool LevelManager::load_index(SDL_Renderer* pRenderer)
+bool LevelManager::load_index(SDL_Renderer* pRenderer, string pPath)
 {
+	init_paths(pPath);
 	ifstream index_file(index_path);
 	if(index_file.is_open())
 	{
@@ -70,7 +60,7 @@ bool LevelManager::load_level(std::string pId)
 		lvl_map = level_data_path + pId + "/" + LEVEL_MAP_FILENAME;
 
 		desc_file.close();
-		levels.push_back(Level(lvl_bg, lvl_ground, lvl_music, lvl_map, lvl_player, lvl_door));
+		levels.push_back(Level(lvl_bg, lvl_ground, lvl_music, lvl_map, lvl_player, lvl_door, level_asset_path));
 	}
 	else
 	{

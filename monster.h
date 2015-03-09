@@ -9,6 +9,8 @@
 #include <SDL2/SDL_image.h>
 #endif
 
+#include <string>
+
 class Monster
 {
 	private:
@@ -37,7 +39,7 @@ class Monster
 		static const int STEP_Y = 64;
 
 		//Constructor
-		Monster(int pXmin, int pXmax, int pY)
+		Monster(std::string pPath, int pXmin, int pXmax, int pY)
 		{
 			pos = Position(pXmin, pY);
 
@@ -45,7 +47,7 @@ class Monster
 			x_min = pXmin;
 			x_max = pXmax;
 
-			monster_image = IMG_Load("assets/monster.png");
+			monster_image = IMG_Load((pPath + "monster.png").c_str());
 
 			sprite_rect.w = 64;
 			sprite_rect.h = 64;
@@ -64,8 +66,8 @@ class Monster
 		//Initialize the monster texture
 		bool init_texture(SDL_Renderer* pRenderer);
 
-		//Getter for monster texture
-		SDL_Texture* get_texture(){return monster_texture;}	
+		//Destroy
+		void dispose();
 
 		//Set the player position to the given position
 		void set_pos(Position pPosition);

@@ -77,3 +77,8 @@ void Monster::move()
 	}
 }
 
+//Destroy
+void Monster::dispose()
+{
+	SDL_DestroyTexture(monster_texture);	
+}

@@ -1,13 +1,9 @@
 #include "menu.h"
 
-bool Menu::load(SDL_Renderer* pRenderer)
-{
-	char* path = SDL_GetBasePath();
-	std::string base_path = SDL_strdup(path);
-	SDL_free(path);
-
+bool Menu::load(SDL_Renderer* pRenderer, std::string pPath)
+{	
 	//Initialize background texture
-	bg_image = IMG_Load((base_path + "assets/splashscreen.png").c_str());
+	bg_image = IMG_Load((pPath + "assets/splashscreen.png").c_str());
 	bg_texture = SDL_CreateTextureFromSurface(pRenderer, bg_image);
 	if(bg_texture <= 0)
 	{
@@ -21,6 +17,11 @@ bool Menu::load(SDL_Renderer* pRenderer)
 void Menu::display(SDL_Renderer* pRenderer)
 {
 	SDL_RenderCopy(pRenderer, bg_texture, &bg_rect, &bg_rect);	
+}
+
+void Menu::dispose()
+{
+	SDL_DestroyTexture(bg_texture);
 }
 
 //Handle SDL events 

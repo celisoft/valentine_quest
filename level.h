@@ -37,6 +37,7 @@ class Level
 		string lvl_map_path;
 		string lvl_player_path;
 		string lvl_door_path;
+		string lvl_asset_path;
 
 		SDL_Surface* bg_image;
 		SDL_Texture* bg_texture;
@@ -77,7 +78,7 @@ class Level
 
 	public:
 		//Constructor
-		Level(string pBgPath, string pGroundPath, string pBgMusicPath, string pMapPath, string pPlayerPath, string pDoorPath)
+		Level(string pBgPath, string pGroundPath, string pBgMusicPath, string pMapPath, string pPlayerPath, string pDoorPath, string pAssetPath)
 		{
 			lvl_bg_path = pBgPath;
 			lvl_ground_path = pGroundPath;
@@ -85,6 +86,7 @@ class Level
 			lvl_map_path = pMapPath;
 			lvl_player_path = pPlayerPath;
 			lvl_door_path = pDoorPath;
+			lvl_asset_path = pAssetPath;
 		}
 
 		//Load the level
