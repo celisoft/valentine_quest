@@ -31,6 +31,28 @@ Distribution (fr)
 
 Comme indiqué dans le fichier LICENSE, ce jeu est sous license GPL. N'oubliez pas que logiciel libre signifie bien libre et non gratuit ;-).
 
+Authors (us)
+------------
+
+This game has been created by Céline Libéral & Zoé Belleton known as Celisoft team.
+You can find us on twitter : @cel_reloaded & @zoe_gfx
+
+Auteurs (fr)
+------------
+
+Ce jeu a été créé par Céline Libéral et Zoé Belleton aussi connues sous le nom de Celisoft.
+Vous pouvez nous retrouver sur Twitter: @cel_reloaded & @zoe_gfx
+
+Licensing
+---------
+
+This game is under GPL license.
+
+License
+-------
+
+Ce jeu est sous licence GPL.
+
 Compilation (us)
 ----------------
 
