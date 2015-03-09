@@ -82,6 +82,7 @@ bool LevelManager::display(SDL_Renderer* pRenderer)
 		{
 			if(!prepare_next_level(pRenderer))
 			{
+				reset_progress();
 				return false;
 			}
 		}
