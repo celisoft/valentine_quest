@@ -64,23 +64,47 @@ On ArchLinux
 pacman -S sdl2 sdl2_image sdl2_mixer
 ```
 
-On Debian-like distribution
+On Ubuntu-like distribution
 ```
 apt-get install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev
 ```
+
+On Fedora-like distribution
+```
+yum install SDL2 SDL2-dev SDL2-image SDL2-image-devel SDL2-mixer SDL2-mixer-devel
+```
+
+On OpenSuse
+```
+zypper install libsdl2-devel libsdl2_image-devel libsdl2_mixer-devel
+```
+
+On Debian & OpenBSD (and probably on other OS), you have to compile SDL2 libds by yourself.
 
 Compilation (fr)
 ----------------
 
-You will have to compile the source code through the 'make' command. Feel free to change C++ compiler with g++ instead of clang++. Both works on Unix systems.
-In order to compile you will have to install libsdl2, libsdl2_image and libsdl2_mixer.
+Vous devrez compiler le code source avec la commande 'make'. Vous pouvez changer le compilateur C++ par clang++ ou g++.
+Afin de compiler le code source, il vous faudra installer les bibliothèques suivantes : libsdl2, libsdl2_image and libsdl2_mixer.
 
-On ArchLinux
+Sur ArchLinux
 ```
 pacman -S sdl2 sdl2_image sdl2_mixer
 ```
 
-On Debian-like distribution
+Sur les distributions basées sur Ubuntu
 ```
 apt-get install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev
 ```
+
+Sur les distributions basées sur Fedora
+```
+yum install SDL2 SDL2-dev SDL2-image SDL2-image-devel SDL2-mixer SDL2-mixer-devel
+```
+
+Sur OpenSuse
+```
+zypper install libsdl2-devel libsdl2_image-devel libsdl2_mixer-devel
+```
+
+Sur Debian et OpenBSD (et certainement d'autres OS), vous devez compiler la SDL2 par vous-même.
