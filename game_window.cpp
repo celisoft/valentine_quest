@@ -12,7 +12,7 @@
 bool GameWindow::init()
 {
 	//Try to initailize all SDL component and check if it works
-	if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
+	if(SDL_Init(SDL_INIT_TIMER|SDL_INIT_AUDIO|SDL_INIT_VIDEO|SDL_INIT_EVENTS) < 0)
 	{
 		return false;
 	}
