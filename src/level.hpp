@@ -16,11 +16,11 @@
 #include <vector>
 #include <iostream>
 
-#include "position.h"
-#include "monster.h"
-#include "player.h"
-#include "heart.h"
-#include "door.h"
+#include "position.hpp"
+#include "monster.hpp"
+#include "player.hpp"
+#include "heart.hpp"
+#include "door.hpp"
 
 using namespace std;
 

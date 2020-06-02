@@ -1,4 +1,4 @@
-#include "position.h"
+#include "position.hpp"
 
 int Position::get_x()
 {

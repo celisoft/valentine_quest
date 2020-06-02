@@ -1,4 +1,4 @@
-#include "monster.h"
+#include "monster.hpp"
 
 //Initialize texture
 bool Monster::init_texture(SDL_Renderer* pRenderer)

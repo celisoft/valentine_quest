@@ -1,4 +1,4 @@
-#include "door.h"
+#include "door.hpp"
 
 //Initialize texture
 bool Door::init_texture(SDL_Renderer* pRenderer)

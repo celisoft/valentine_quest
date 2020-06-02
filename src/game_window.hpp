@@ -2,8 +2,8 @@
 #define GAME_WINDOW_H
 
 #include <SDL2/SDL.h>
-#include "menu.h"
-#include "level_manager.h"
+#include "menu.hpp"
+#include "level_manager.hpp"
 
 class GameWindow
 {

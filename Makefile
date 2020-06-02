@@ -1,32 +1,25 @@
 #Define vars
-CC = g++
+CXX = g++
 FLAGS = -Wall -std=c++11
-LIBS = -lSDL2 -lSDL2_image -lSDL2_mixer 
+LDFLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer 
 EXEC = valentine_quest
-OBJ_FILES = main.o game_window.o menu.o level_manager.o level.o player.o monster.o heart.o door.o position.o
+
+SRC = $(wildcard src/*.cpp)
+OBJ = $(SRC:.cpp=.o)
+
 INSTALL_DIR = /opt/valentine_quest
 LAUNCHER = scripts/valentine_quest
 LAUNCHER_DIR = /usr/local/bin
 README = readme.md
 
-#Define the ALL scope (default)
-all: clean game 
-
 #Create the executable file
-game : main
-	$(CC) -o $(EXEC) $(LIBS) $(OBJ_FILES) 
+valentine_quest: $(OBJ)
+	$(CXX) $(FLAGS) -o $@ $^ $(LDFLAGS)
 
-main: complex_components
-	$(CC) -c $(FLAGS) main.cpp
 
-complex_components: basic_components
-	$(CC) -c $(FLAGS) game_window.cpp level_manager.cpp level.cpp
-
-basic_components: 
-	$(CC) -c $(FLAGS) menu.cpp player.cpp monster.cpp heart.cpp door.cpp position.cpp
-
+.PHONY: clean
 clean: 
-	rm -f *.o $(EXEC)
+	rm -f $(OBJ) valentine_quest
 
 install:
 	mkdir -p $(INSTALL_DIR)

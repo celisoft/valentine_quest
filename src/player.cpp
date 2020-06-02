@@ -1,4 +1,4 @@
-#include "player.h"
+#include "player.hpp"
 
 //Initialize texture
 bool Player::init_texture(SDL_Renderer* pRenderer)

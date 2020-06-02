@@ -1,4 +1,4 @@
-#include "heart.h"
+#include "heart.hpp"
 
 bool Heart::init_texture(SDL_Renderer* pRenderer)
 {

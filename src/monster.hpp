@@ -1,7 +1,7 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
-#include "position.h"
+#include "position.hpp"
 #include <SDL2/SDL.h>
 #ifdef __APPLE__
 #include <SDL2_image/SDL_image.h>

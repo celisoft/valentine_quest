@@ -1,4 +1,4 @@
-#include "menu.h"
+#include "menu.hpp"
 
 bool Menu::load(SDL_Renderer* pRenderer, std::string pPath)
 {	

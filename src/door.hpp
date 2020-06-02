@@ -1,7 +1,7 @@
 #ifndef DOOR_H
 #define DOOR_H
 
-#include "position.h"
+#include "position.hpp"
 #include <string>
 #include <SDL2/SDL.h>
 

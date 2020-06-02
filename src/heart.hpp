@@ -1,7 +1,7 @@
 #ifndef HEART_H
 #define HEART_H
 
-#include "position.h"
+#include "position.hpp"
 #include <SDL2/SDL.h>
 
 #ifdef __APPLE__

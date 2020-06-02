@@ -1,4 +1,4 @@
-#include "game_window.h"
+#include "game_window.hpp"
 
 #ifdef __APPLE__
 #include <SDL2_image/SDL_image.h>

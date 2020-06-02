@@ -1,7 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "position.h"
+#include "position.hpp"
 #include <string>
 #include <vector>
 #include <SDL2/SDL.h>

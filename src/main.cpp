@@ -6,7 +6,7 @@
 #include <fstream>
 #include <string>
 
-#include "game_window.h"
+#include "game_window.hpp"
 #undef main
 
 using namespace std;
