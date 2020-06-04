@@ -26,5 +26,5 @@ void Heart::set_pos(Position pPosition) {
 
 // Destroy
 void Heart::dispose() {
-	SDL_DestroyTexture(heart_texture);	
+	SDL_DestroyTexture(heart_texture);
 }

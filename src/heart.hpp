@@ -15,7 +15,7 @@
 class Heart {
 	private:
 		Position pos;
-		SDL_Surface* heart_image;	
+		SDL_Surface* heart_image;
 		SDL_Texture* heart_texture;
 		SDL_Rect sprite_rect;
 		SDL_Rect heart_rect;
@@ -48,7 +48,7 @@ class Heart {
 		bool get_visibility() {return is_visible;}
 
 		// Eat the heart
-		void eat() {is_eaten = true;};
+		void eat() {is_eaten = true;}
 
 		// Get eaten status
 		bool is_eat() {return is_eaten;}
@@ -58,7 +58,7 @@ class Heart {
 
 		// Set the player position to the given position
 		void set_pos(Position pPosition);
-	
+
 		// Load the texture
 		bool init_texture(SDL_Renderer* pRenderer);
 
@@ -69,4 +69,4 @@ class Heart {
 		void dispose();
 };
 
-#endif
+#endif  // HEART_HPP_
