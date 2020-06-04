@@ -9,14 +9,10 @@
 #include "game_window.hpp"
 #undef main
 
-using namespace std;
-
-int main()
-{
+int main() {
 	GameWindow lWindow;
-	if(lWindow.run() == false)
-	{
-		cerr << "Cannot initialize a SDL game window !" << endl;
+	if(lWindow.run() == false) {
+		std::cerr << "Cannot initialize a SDL game window !" << std::endl;
 	}
 
 	return 0;
