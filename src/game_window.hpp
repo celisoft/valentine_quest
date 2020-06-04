@@ -1,14 +1,16 @@
-#ifndef GAME_WINDOW_H
-#define GAME_WINDOW_H
+#ifndef GAME_WINDOW_HPP_
+#define GAME_WINDOW_HPP_
+
+#include "level_manager.hpp"
+#include "menu.hpp"
 
 #include <SDL2/SDL.h>
-#include "menu.hpp"
-#include "level_manager.hpp"
 
-class GameWindow
-{
+#include <string>
+
+class GameWindow {
 	private:
- 		bool is_running;  
+		bool is_running;
 		bool is_playing = false;
 
 		SDL_Window* display;
@@ -19,21 +21,20 @@ class GameWindow
 		LevelManager lvl_manager;
 
 	public:
-		//Constructor
-		GameWindow()
-		{
+		// Constructor
+		GameWindow() {
 			display = nullptr;
 			renderer = nullptr;
 		}
 
-		//Initialize the game display
+		// Initialize the game display
 		bool init();
 
-		//Display the game
+		// Display the game
 		bool run();
 
-		//Catch game events
+		// Catch game events
 		void on_event(SDL_Event* event);
 };
 
-#endif
+#endif  // GAME_WINDOW_HPP_
