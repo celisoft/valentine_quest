@@ -1,5 +1,5 @@
-#ifndef HEART_H
-#define HEART_H
+#ifndef HEART_HPP_
+#define HEART_HPP_
 
 #include "position.hpp"
 #include <SDL2/SDL.h>
@@ -12,8 +12,7 @@
 
 #include <string>
 
-class Heart
-{
+class Heart {
 	private:
 		Position pos;
 		SDL_Surface* heart_image;	
@@ -25,9 +24,8 @@ class Heart
 		bool is_eaten = false;
 
 	public:
-		//Constructor
-		Heart(std::string pPath, int pX, int pY)
-		{
+		// Constructor
+		Heart(std::string pPath, int pX, int pY) {
 			pos = Position(pX, pY);
 
 			heart_image = IMG_Load((pPath + "heart.png").c_str());
@@ -43,31 +41,31 @@ class Heart
 			heart_rect.y = pos.get_y() * 64;
 		}
 
-		//Set visible
-		void set_visibility(bool pVal){is_visible = pVal;}
+		// Set visible
+		void set_visibility(bool pVal) {is_visible = pVal;}
 
-		//Get visibility
-		bool get_visibility(){return is_visible;}
+		// Get visibility
+		bool get_visibility() {return is_visible;}
 
-		//Eat the heart
-		void eat(){is_eaten = true;};
+		// Eat the heart
+		void eat() {is_eaten = true;};
 
-		//Get eaten status
-		bool is_eat(){return is_eaten;}
+		// Get eaten status
+		bool is_eat() {return is_eaten;}
 
-		//Getter for heart_rect (will be used for collsion)
-		SDL_Rect* get_rect(){ return &heart_rect; }
+		// Getter for heart_rect (will be used for collsion)
+		SDL_Rect* get_rect() { return &heart_rect; }
 
-		//Set the player position to the given position
+		// Set the player position to the given position
 		void set_pos(Position pPosition);
 	
-		//Load the texture
+		// Load the texture
 		bool init_texture(SDL_Renderer* pRenderer);
 
-		//Render the texture through given renderer
+		// Render the texture through given renderer
 		void render(SDL_Renderer* pRenderer);
 
-		//Destroy
+		// Destroy
 		void dispose();
 };
 
