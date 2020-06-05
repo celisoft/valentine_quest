@@ -1,55 +1,53 @@
-#ifndef LEVEL_MANAGER_H
-#define LEVEL_MANAGER_H
+#ifndef LEVEL_MANAGER_HPP_
+#define LEVEL_MANAGER_HPP_
 
 #include "level.hpp"
+
 #include <string>
 #include <iostream>
 #include <vector>
+
 #include <SDL2/SDL.h>
 
-using namespace std;
-
-class LevelManager
-{
+class LevelManager {
 	private:
-		const string INDEX_FILENAME = "lvl_index";
-		const string LEVEL_DESC_FILENAME = "lvl_desc";
-		const string LEVEL_MAP_FILENAME = "lvl_map";
+		const std::string INDEX_FILENAME = "lvl_index";
+		const std::string LEVEL_DESC_FILENAME = "lvl_desc";
+		const std::string LEVEL_MAP_FILENAME = "lvl_map";
 
-		string level_base_path;
-		string level_data_path;
-		string level_asset_path;
-		string index_path;
+		std::string level_base_path;
+		std::string level_data_path;
+		std::string level_asset_path;
+		std::string index_path;
 
-		vector<Level> levels;
+		std::vector<Level> levels;
 		int current_level = 0;
 
-		//initialize paths
-		void init_paths(string pPath);
+		// Initialize paths
+		void init_paths(std::string pPath);
 
-		//Return the next level
+		// Return the next level
 		bool prepare_next_level(SDL_Renderer* pRenderer);
 
 	public:
-		//Constructor
-		LevelManager()
-		{
-		}
+		// Constructor
+		LevelManager() {}
 
-		//Load the lvl_index file
-		bool load_index(SDL_Renderer* pRenderer, string pPath);
+		// Load the lvl_index file
+		bool load_index(SDL_Renderer* pRenderer, std::string pPath);
 
-		//Load level and add it to levels vector
-		bool load_level(string pLevelDescPath);
+		// Load level and add it to levels vector
+		bool load_level(std::string pLevelDescPath);
 
-		//Display the current level
+		// Display the current level
 		bool display(SDL_Renderer* pRenderer);
 
-		//Reset progression
+		// Reset progression
 		void reset_progress();
 
-		//Event dispatcher
-		void on_event(SDL_Event* pEvent);	
+		// Event dispatcher
+		void on_event(SDL_Event* pEvent);
 };
 
-#endif
+#endif  // LEVEL_MANAGER_HPP_
+
