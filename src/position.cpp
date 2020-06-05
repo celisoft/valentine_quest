@@ -1,27 +1,21 @@
 #include "position.hpp"
 
-int Position::get_x()
-{
+int Position::get_x() {
 	return coord_x;
 }
 
-int Position::get_y()
-{
+int Position::get_y() {
 	return coord_y;
 }
 
-void Position::set_x(int pX=0)
-{
-	if(pX >= MIN_X && pX <= MAX_X)
-	{	
+void Position::set_x(int pX = 0) {
+	if(pX >= MIN_X && pX <= MAX_X) {
 		coord_x = pX;
 	}
 }
 
-void Position::set_y(int pY=0)
-{
-	if(pY >= MIN_Y && pY <= MAX_Y)
-	{
+void Position::set_y(int pY = 0) {
+	if(pY >= MIN_Y && pY <= MAX_Y) {
 		coord_y = pY;
 	}
 }
