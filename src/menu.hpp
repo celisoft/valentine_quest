@@ -1,7 +1,8 @@
-#ifndef MENU_H
-#define MENU_H
+#ifndef MENU_HPP_
+#define MENU_HPP_
 
 #include <string>
+
 #include <SDL2/SDL.h>
 
 #ifdef __APPLE__
@@ -10,8 +11,7 @@
 #include <SDL2/SDL_image.h>
 #endif
 
-class Menu
-{
+class Menu {
 	private:
 		SDL_Surface* bg_image;
 		SDL_Texture* bg_texture;
@@ -19,25 +19,24 @@ class Menu
 		SDL_Rect bg_rect;
 
 	public:
-		Menu()
-		{
+		Menu() {
 			bg_rect.w = 1024;
 			bg_rect.h = 768;
 			bg_rect.x = 0;
 			bg_rect.y = 0;
 		}
 
-		//Create the texture from surface
+		// Create the texture from surface
 		bool load(SDL_Renderer* pRenderer, std::string pPath);
 
-		//Unload the menu
+		// Unload the menu
 		void dispose();
 
-		//Display the menu
+		// Display the menu
 		void display(SDL_Renderer* pRenderer);
 
-		//On event
+		// On event
 		bool check_event(SDL_Event* pEvent);
 };
 
-#endif
+#endif  // MENU_HPP_
