@@ -79,7 +79,7 @@ On OpenSuse
 zypper install libsdl2-devel libsdl2_image-devel libsdl2_mixer-devel
 ```
 
-On Debian & OpenBSD (and probably on other OS), you have to compile SDL2 libds by yourself.
+On OpenBSD (and probably on other OS), you have to compile SDL2 libds by yourself.
 
 Compilation (fr)
 ----------------
@@ -92,7 +92,7 @@ Sur ArchLinux
 pacman -S sdl2 sdl2_image sdl2_mixer
 ```
 
-Sur les distributions basées sur Ubuntu
+Sur les distributions basées sur Debian
 ```
 apt-get install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev
 ```
