@@ -1,9 +1,11 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef PLAYER_HPP_
+#define PLAYER_HPP_
 
 #include "position.hpp"
+
 #include <string>
 #include <vector>
+
 #include <SDL2/SDL.h>
 
 #ifdef __APPLE__
@@ -12,20 +14,17 @@
 #include <SDL2/SDL_image.h>
 #endif
 
-using namespace std;
-
-class Player
-{
+class Player {
 	Position pos;
-	SDL_Surface* player_image;	
+	SDL_Surface* player_image;
 	SDL_Texture* player_texture;
 	SDL_Rect sprite_rect;
 	SDL_Rect player_rect;
-	bool is_jump = false;	
+	bool is_jump = false;
 	bool is_dead = false;
 
 	public:
-		//Constant initialization
+		// Constants initialization
 		static const int LEFT_POS_0 = 3;
 		static const int LEFT_POS_1 = 2;
 		static const int RIGHT_POS_0 = 0;
@@ -33,9 +32,8 @@ class Player
 		static const int STEP_X = 64;
 		static const int STEP_Y = 64;
 
-		//Constructors
-		Player(string pSpritePath="", int pX=0, int pY=0)
-		{
+		// Constructors
+		explicit Player(std::string pSpritePath = "", int pX = 0, int pY = 0) {
 			pos = Position(pX, pY);
 
 			player_image = IMG_Load(pSpritePath.c_str());
@@ -51,46 +49,46 @@ class Player
 			player_rect.y = pY * STEP_Y;
 		}
 
-		//Getter for player_rect (will be used for collsion)
-		SDL_Rect* get_rect(){ return &player_rect; }
+		// Getter for player_rect (will be used for collsion)
+		SDL_Rect* get_rect() { return &player_rect; }
 
-		//Initialize texture
+		// Initialize texture
 		bool init_texture(SDL_Renderer* pRenderer);
 
-		//Getter for player texture
-		SDL_Texture* get_texture(){return player_texture;}
+		// Getter for player texture
+		SDL_Texture* get_texture() {return player_texture;}
 
-		void jump(){is_jump=true;}
-	
-		void walk(){is_jump=false;}
+		void jump() {is_jump = true;}
 
-		bool is_jumping(){return is_jump;}
+		void walk() {is_jump = false;}
 
-		//Set the player position to the given position
+		bool is_jumping() {return is_jump;}
+
+		// Set the player position to the given position
 		void set_pos(Position pPosition);
 
-		//Kill the player
-		void kill(){is_dead = true;}
+		// Kill the player
+		void kill() {is_dead = true;}
 
-		//Reborn the player
-		void reborn(){is_dead = false;}
+		// Reborn the player
+		void reborn() {is_dead = false;}
 
-		//Check if player is alive
-		bool is_alive(){return !is_dead;}
+		// Check if player is alive
+		bool is_alive() {return !is_dead;}
 
-		//Render the texture through given renderer
+		// Render the texture through given renderer
 		void render(SDL_Renderer* pRenderer);
 
-		//Move on X axis 
+		// Move on X axis
 		void move_x(int step);
 
-		//Move on Y axis
+		// Move on Y axis
 		void move_y(int step);
 
-		//Let the user falls if he's not on the groud
+		// Let the user falls if he's not on the groud
 		bool fall(vector<SDL_Rect> ground);
 
-		//Check if player has instersection with given SDL_Rects
+		// Check if player has instersection with given SDL_Rects
 		bool has_intersection(vector<SDL_Rect> sdl_rect_vector);
 };
-#endif
+#endif  // PLAYER_HPP_
