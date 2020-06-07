@@ -16,7 +16,7 @@ bool LevelManager::load_index(SDL_Renderer* pRenderer, std::string pPath) {
 
 	std::ifstream index_file(index_path);
 	if(index_file.is_open()) {
-		string line;
+		std::string line;
 		while(getline(index_file, line)) {
 			load_level(line);
 		}
@@ -35,7 +35,7 @@ bool LevelManager::load_index(SDL_Renderer* pRenderer, std::string pPath) {
 // Load the level description file and creates a Level
 bool LevelManager::load_level(std::string pId) {
 	std::string lvl_desc_path = level_data_path + pId + "/" + LEVEL_DESC_FILENAME;
-	ifstream desc_file(lvl_desc_path);
+	std::ifstream desc_file(lvl_desc_path);
 	if(desc_file.is_open()) {
 		std::string lvl_bg, lvl_ground, lvl_music, lvl_map, lvl_player, lvl_door;
 

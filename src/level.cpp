@@ -104,7 +104,7 @@ void Level::add_rect(int pX, int pY) {
 }
 
 // Load the level map
-bool Level::load_map(string pMapFilepath) {
+bool Level::load_map(std::string pMapFilepath) {
 	std::ifstream lvl_file(pMapFilepath);
 	if(lvl_file.is_open()) {
 		std::string line;
@@ -339,9 +339,9 @@ void Level::open_door() {
 }
 
 int Level::get_random(int pMin, int pMax) {
-	unsigned lSeed = chrono::system_clock::now().time_since_epoch().count();
-	default_random_engine gen(lSeed);
-	uniform_int_distribution<int> dist(pMin, pMax);
+	unsigned lSeed = std::chrono::system_clock::now().time_since_epoch().count();
+	std::default_random_engine gen(lSeed);
+	std::uniform_int_distribution<int> dist(pMin, pMax);
 
 	return dist(gen);
 }

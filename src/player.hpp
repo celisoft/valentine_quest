@@ -86,9 +86,9 @@ class Player {
 		void move_y(int step);
 
 		// Let the user falls if he's not on the groud
-		bool fall(vector<SDL_Rect> ground);
+		bool fall(std::vector<SDL_Rect> ground);
 
 		// Check if player has instersection with given SDL_Rects
-		bool has_intersection(vector<SDL_Rect> sdl_rect_vector);
+		bool has_intersection(std::vector<SDL_Rect> sdl_rect_vector);
 };
 #endif  // PLAYER_HPP_
