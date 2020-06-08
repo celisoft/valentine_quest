@@ -1,0 +1,12 @@
+[requires]
+libiconv/1.15
+libpng/1.6.37
+bzip2/1.0.6@conan/stable
+zlib/1.2.11@conan/stable
+
+sdl2/2.0.10@bincrafters/stable
+sdl2_image/2.0.5@bincrafters/stable
+sdl2_mixer/2.0.4@bincrafters/stable
+
+[generators]
+cmake
